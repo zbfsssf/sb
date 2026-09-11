@@ -99,7 +99,8 @@ function validateToken(token) {
   if (!token) {
     return {
       isValid: false,
-      error: "No token provided in config.yaml. Please add your Discord token.",
+      error:
+        "No token provided. Set the TOKEN environment variable (Railway) or add one to config.yaml.",
     };
   }
 
@@ -107,7 +108,7 @@ function validateToken(token) {
   if (typeof token !== "string") {
     return {
       isValid: false,
-      error: "Token must be a string. Check your config.yaml format.",
+      error: "Token must be a string. Check the TOKEN variable or config.yaml.",
     };
   }
 
@@ -280,11 +281,9 @@ async function initializeSelfbot() {
     if (!tokenValidation.isValid) {
       console.error(chalk.red("\n[TOKEN ERROR] " + tokenValidation.error));
       console.error(chalk.yellow("\nHow to fix:"));
-      console.error(chalk.yellow("1. Open config.yaml"));
-      console.error(
-        chalk.yellow("2. Replace the token value with your Discord token")
-      );
-      console.error(chalk.yellow("3. Save the file and restart the bot"));
+      console.error(chalk.yellow("1. On Railway, create a TOKEN variable with your Discord token"));
+      console.error(chalk.yellow("2. For local use, add the token to config.yaml instead"));
+      console.error(chalk.yellow("3. Restart the application"));
       console.error(chalk.yellow("\nTo get your Discord token:"));
       console.error(chalk.yellow("1. Open Discord in browser"));
       console.error(chalk.yellow("2. Press F12 -> Network tab"));
@@ -367,7 +366,7 @@ async function initializeSelfbot() {
         console.error(chalk.yellow("• Incorrectly copied"));
         console.error(chalk.yellow("• From a different account"));
         console.error(
-          chalk.yellow("\nPlease get a fresh token and update config.yaml")
+          chalk.yellow("\nPlease get a fresh token and update the TOKEN variable")
         );
       } else if (loginError.message.includes("RATE_LIMITED")) {
         console.error(chalk.red("\n[LOGIN ERROR] Rate limited by Discord"));
