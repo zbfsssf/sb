@@ -82,6 +82,12 @@ export function loadConfig(forceReload = false) {
       throw new Error('Invalid configuration: Missing "selfbot" section');
     }
 
+    // Railway and other hosts can provide the token without storing it in YAML.
+    const environmentToken = process.env.TOKEN || process.env.DISCORD_TOKEN;
+    if (environmentToken) {
+      configCache.selfbot.token = environmentToken;
+    }
+
     return configCache;
   } catch (error) {
     console.error(chalk.red("[CONFIG] Error loading configuration:"), error.message);
